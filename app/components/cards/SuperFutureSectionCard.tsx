@@ -21,15 +21,13 @@ const SuperFutureSectionCard = ({ item }: SuperFutureSectionCardProps) => {
 
   return (
     <div className="flex flex-col items-center  gap-3 text-center w-full">
-      <div className="aspect-square relative overflow-hidden">
+      <div className="aspect-square  overflow-hidden ">
         <Image
           src={imageUrl}
           alt={title}
           width={380}
           height={380}
-          className="group-hover:scale-110
-          object-cover
-                transition"
+          className="hover:scale-105 transition duration-1000"
         />
       </div>
       <h3 className="text-xl font-bold">{title}</h3>

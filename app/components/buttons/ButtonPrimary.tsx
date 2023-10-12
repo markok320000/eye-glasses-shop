@@ -1,14 +1,15 @@
 import React from "react";
 
-const ButtonPrimary = ({ title, url }) => {
+const ButtonPrimary = ({ title, url, brandsSection }) => {
   return (
     <a
       href={url}
-      className="
+      className={`
         min-w-[150px]
         sm:w-[200px]
         border-[1px]
         border-black
+        ${brandsSection ? "bg-white text-black" : ""}
         py-2
         px-2
         mt-auto
@@ -17,9 +18,7 @@ const ButtonPrimary = ({ title, url }) => {
         hover:text-yellow-800
         hover:border-yellow-800
         hover:transition-colors
-        duration-500
-
-      "
+        duration-500`}
     >
       {title}
     </a>

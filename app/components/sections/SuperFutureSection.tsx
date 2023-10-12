@@ -39,7 +39,7 @@ const data = [
 ];
 
 const SuperFutureSection = () => {
-  const isSmallScreen = useMediaQuery("(max-width: 900px)");
+  const isSmallScreen = useMediaQuery("(max-width: 800px)");
 
   return (
     <div

@@ -4,6 +4,8 @@ import BenefitsSlider from "./components/benefits-slider/BenefitsSlider";
 import ShopGlassesSection from "./components/sections/ShopGlassesSection";
 import BestSellingGlassesSection from "./components/sections/BestSellingGlassesSection";
 import SuperFutureSection from "./components/sections/SuperFutureSection";
+import DesignerBrandsSection from "./components/sections/DesignerBrandsSection";
+import ShopTheLookSection from "./components/sections/ShopTheLookSection";
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
         <ShopGlassesSection />
         <BestSellingGlassesSection />
         <SuperFutureSection />
+        <DesignerBrandsSection />
+        <ShopTheLookSection />
       </div>
     </div>
   );
