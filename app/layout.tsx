@@ -13,7 +13,7 @@ import FavouritesSideBar from "./components/modals/FavouritesSideBar/FavouritesS
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "ANNI",
+  title: "ANNNI",
   description: "Eyeglass shop",
 };
 

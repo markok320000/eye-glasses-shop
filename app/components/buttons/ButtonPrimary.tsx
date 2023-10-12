@@ -5,11 +5,13 @@ const ButtonPrimary = ({ title, url }) => {
     <a
       href={url}
       className="
-        w-[150px]
+        min-w-[150px]
         sm:w-[200px]
         border-[1px]
         border-black
         py-2
+        px-2
+        mt-auto
         sm:py-3 
         rounded
         hover:text-yellow-800
