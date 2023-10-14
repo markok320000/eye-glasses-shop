@@ -6,12 +6,13 @@ import BestSellingGlassesSection from "./components/sections/BestSellingGlassesS
 import SuperFutureSection from "./components/sections/SuperFutureSection";
 import DesignerBrandsSection from "./components/sections/DesignerBrandsSection";
 import ShopTheLookSection from "./components/sections/ShopTheLookSection";
+import QuestionsSection from "./components/sections/QuestionsSection";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center ">
       <HeroSection />
-      <div className="2xl:max-w-[80%] w-full">
+      <div className="2xl:max-w-[80%] w-full ">
         <BenefitsSlider />
         <ShopGlassesSection />
         <BestSellingGlassesSection />
@@ -19,6 +20,7 @@ export default function Home() {
         <DesignerBrandsSection />
         <ShopTheLookSection />
       </div>
+      <QuestionsSection />
     </div>
   );
 }

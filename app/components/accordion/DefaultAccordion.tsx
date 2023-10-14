@@ -41,16 +41,20 @@ interface Link {
 
 interface AccordionLinksProps {
   links: Link[];
+  footerAccordion?: boolean;
 }
 
-function AccordionLinks({ links }: AccordionLinksProps) {
+function AccordionLinks({ links, footerAccordion }: AccordionLinksProps) {
   return (
     <ul className="px-2 font-light text-lg">
       {links.map((link: Link) => (
         <li
           key={link.id}
-          className={`py-2 ${
-            link.onSale ? "text-red-800" : "hover:text-black"
+          className={`py-2 ${link.onSale ? "text-red-800" : "hover:text-black"}
+          ${
+            footerAccordion
+              ? "text-white font-medium text-base hover:text-white hover:underline"
+              : ""
           }`}
         >
           <a href={link.url}>{link.text}</a>
@@ -94,14 +98,23 @@ interface AccordionItemProps {
   item: any;
   child: any;
   open: number;
+  footerAccordion?: boolean;
   handleOpen: (id: number) => void;
 }
 
-function AccordionItem({ item, child, open, handleOpen }: AccordionItemProps) {
+function AccordionItem({
+  item,
+  child,
+  open,
+  handleOpen,
+  footerAccordion,
+}: AccordionItemProps) {
   return (
     <div key={item.id} className="">
       <Accordion
-        className={`text-black ${child ? "pr-10" : ""}`}
+        className={`  ${child ? "pr-10" : ""} ${
+          footerAccordion ? "bg-zinc-900 " : ""
+        }`}
         open={open === item.id}
         icon={<Icon id={item.id} open={open} child={child} />}
       >
@@ -109,13 +122,26 @@ function AccordionItem({ item, child, open, handleOpen }: AccordionItemProps) {
           onClick={() => handleOpen(item.id)}
           className={`h-13 text-black px-2 font-light text-lg my-0 border-0 py-1 relative ${
             child ? "text-gray-600" : ""
-          }`}
+          }
+          ${
+            footerAccordion
+              ? "text-white font-bold border-b-[1px] py-4 px-4 hover:text-white "
+              : ""
+          }
+          `}
         >
           {item.header}
           {item.children && <Icon id={item.id} open={open} />}
         </AccordionHeader>
-        <AccordionBody className="ml-6">
-          {item.links && <AccordionLinks links={item.links} />}
+        <AccordionBody
+          className={`ml-6 ${footerAccordion ? "text-white text-xs" : ""}`}
+        >
+          {item.links && (
+            <AccordionLinks
+              links={item.links}
+              footerAccordion={footerAccordion}
+            />
+          )}
           {item.brands && <AccordionPremiumBrands brands={item.brands} />}
           {item.children && (
             <div className="">
@@ -131,11 +157,13 @@ function AccordionItem({ item, child, open, handleOpen }: AccordionItemProps) {
 interface DefaultAccordionProps {
   apiData: any;
   child?: boolean;
+  footerAccordion?: boolean;
 }
 
 const DefaultAccordion: React.FC<DefaultAccordionProps> = ({
   apiData,
   child,
+  footerAccordion,
 }) => {
   const [open, setOpen] = useState(0);
 
@@ -149,6 +177,7 @@ const DefaultAccordion: React.FC<DefaultAccordionProps> = ({
           item={item}
           child={child}
           open={open}
+          footerAccordion={footerAccordion}
           handleOpen={handleOpen}
         />
       ))}

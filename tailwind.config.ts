@@ -9,6 +9,20 @@ const config: Config = (module.exports = withMT({
   ],
   theme: {
     extend: {
+      colors: {
+        zinc: {
+          50: "#F6F6F6",
+          100: "#E8E8E8",
+          200: "#D9D9D9",
+          300: "#CACACA",
+          400: "#ACACAC",
+          500: "#8D8D8D",
+          600: "#6F6F6F",
+          700: "#505050",
+          800: "#313131",
+          900: "#131313",
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

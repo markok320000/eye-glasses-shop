@@ -39,18 +39,13 @@ const data = [
 ];
 
 const SuperFutureSection = () => {
-  const isSmallScreen = useMediaQuery("(max-width: 800px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   return (
-    <div
-      className={`my-16 flex justify-center items-center ${
-        isSmallScreen ? "" : "mx-10"
-      }`}
-    >
+    <div className={`my-16 flex justify-center items-center md:mx-10 `}>
       <div
-        className={`flex gap-10 ${
-          isSmallScreen ? "flex-col" : "flex-row px-8"
-        } `}
+        className={`flex gap-10 flex-col md:flex-row md:px-8
+        `}
       >
         {data.map((item) => (
           <SuperFutureSectionCard key={item.title} item={item} />

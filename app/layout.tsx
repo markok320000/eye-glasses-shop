@@ -9,6 +9,7 @@ import SideBar from "./components/modals/SideBar";
 import ShoppingBagSideBarModalWrapper from "./components/modals/ShoppingBagSideBar";
 import ShoppingBagSideBar from "./components/modals/ShoppingBagSideBar";
 import FavouritesSideBar from "./components/modals/FavouritesSideBar/FavouritesSideBar";
+import Footer from "./components/footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         <ShoppingBagSideBar />
         <FavouritesSideBar />
         <div className="">{children}</div>
+        <Footer />
       </body>
     </html>
   );
