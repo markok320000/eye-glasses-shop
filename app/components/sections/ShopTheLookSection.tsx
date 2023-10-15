@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 import img1 from "@/public/images/1.jpg";
 import img2 from "@/public/images/2.jpg";
@@ -12,36 +12,46 @@ import ButtonPrimary from "../buttons/ButtonPrimary";
 import SocialIcons from "../social-icons/SocialIcons";
 import { useMediaQuery } from "@react-hook/media-query";
 
-// interface ImageWithOverlayProps {
-//   src: string;
-//   alt: string;
-//   index: number;
-// }
+interface ImageWithOverlayProps {
+  src: StaticImageData;
+  alt: string;
+  index: number;
+  cols: number;
+  rows: number;
+  style: string;
+}
 
-// function ImageWithOverlay({ index, src, alt, onMouseEnter, onMouseLeave }: ImageWithOverlayProps) {
-//   const [hovered, setHovered] = useState(false);
+function ImageWithOverlay({
+  index,
+  src,
+  alt,
+  cols,
+  rows,
+  style,
+}: ImageWithOverlayProps) {
+  const [hovered, setHovered] = useState(false);
 
-//   const onMouseEnterHandler = () => {
-//     setHovered(true);
-//   }
+  const onMouseEnterHandler = () => {
+    // setHovered(true);
+  };
 
-//   return (
-//     <div
-//       className="col-span-2 row-span-2 relative"
-//       onMouseEnter={() => setHovered(true)}
-//       onMouseLeave={() => setHovered(false)}
-//     >
-//       <Image src={src} alt={alt} objectFit="cover" />
-//       {hovered && (
-//         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-//           <button className="text-white font-bold py-2 px-4 rounded">
-//             Shop Now
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
+  return (
+    <div
+      className={`${style}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <Image src={src} alt={alt} objectFit="cover" />
+      {hovered && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <button className="text-white font-bold py-2 px-4 rounded">
+            Shop Now
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 const ShopTheLookSection = () => {
   const [hovered, setHovered] = useState(false);
@@ -69,36 +79,46 @@ const ShopTheLookSection = () => {
         md:grid-cols-4 md:grid-rows-2 max-w-[800px]
         "
       >
-        <div
-          className="col-span-2 row-span-2 relative "
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          <Image src={img1} alt="Image 1" objectFit="cover" />
-          {hovered && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <button className="text-white font-bold py-2 px-4 rounded">
-                Shop Now
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="col-span-1 row-span-1 relative  ">
-          <Image src={img2} alt="Image 2" objectFit="cover" />
-        </div>
-        <div className="col-span-1 row-span-1 relative  ">
-          <Image src={img3} alt="Image 3" objectFit="cover" />
-        </div>
-        <div
-          className="col-span-2 row-span-2 relative
-          md:col-span-1 md:row-span-1 
-        "
-        >
-          <Image src={img4} alt="Image 4" objectFit="cover" />
-        </div>
-        <div className="hidden  md:block col-span-1 row-span-1 relative ">
-          <Image src={img5} alt="Image 5" objectFit="cover" />
-        </div>
+        <ImageWithOverlay
+          index={1}
+          src={img1}
+          alt="Image 1"
+          cols={2}
+          rows={2}
+          style={"col-span-2 row-span-2 relative"}
+        />
+        <ImageWithOverlay
+          index={2}
+          src={img2}
+          alt="Image 2"
+          cols={1}
+          rows={1}
+          style={"col-span-1 row-span-1 relative"}
+        />
+        <ImageWithOverlay
+          index={3}
+          src={img3}
+          alt="Image 3"
+          cols={1}
+          rows={1}
+          style={"col-span-1 row-span-1 relative"}
+        />
+        <ImageWithOverlay
+          index={4}
+          src={img4}
+          alt="Image 4"
+          cols={2}
+          rows={2}
+          style={"col-span-2 row-span-2 relative md:col-span-1 md:row-span-1 "}
+        />
+        <ImageWithOverlay
+          index={5}
+          src={img5}
+          alt="Image 5"
+          cols={1}
+          rows={1}
+          style={"hidden  md:block col-span-1 row-span-1 relative "}
+        />
       </div>
     </div>
   );

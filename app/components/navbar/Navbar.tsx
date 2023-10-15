@@ -23,7 +23,7 @@ const Navbar = () => {
   const favouritesSideBar = useFavouritesSideBar();
 
   return (
-    <nav className="bg-white border border-gray-100 p-4 sticky top-0 z-50">
+    <nav className="bg-white border border-gray-100 p-4 sticky top-0 z-50  ">
       <div className="container mx-auto grid grid-cols-3 items-center">
         {/* Left-aligned content */}
         <div className="col-span-1 text-center">

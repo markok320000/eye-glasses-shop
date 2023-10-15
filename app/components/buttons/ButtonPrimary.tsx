@@ -16,7 +16,7 @@ const ButtonPrimary = ({ title, url, brandsSection }) => {
         sm:py-3 
         rounded
         hover:text-yellow-800
-        hover:border-yellow-800
+      hover:border-yellow-800
         hover:transition-colors
         duration-500`}
     >
