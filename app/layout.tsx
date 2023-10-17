@@ -10,6 +10,8 @@ import ShoppingBagSideBarModalWrapper from "./components/modals/ShoppingBagSideB
 import ShoppingBagSideBar from "./components/modals/ShoppingBagSideBar";
 import FavouritesSideBar from "./components/modals/FavouritesSideBar/FavouritesSideBar";
 import Footer from "./components/footer/Footer";
+import FilterAndSortBar from "./sunglasses/FilterAndSortBar";
+import FilterModal from "./sunglasses/FilterModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
