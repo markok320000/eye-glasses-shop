@@ -66,6 +66,7 @@ const sizeData = {
       id: 1,
       sizeType: "Small",
       size: {
+        filterType: "small",
         totalWidth: [10, 100],
         bridgeWidth: [10, 100],
         lensWidth: [10, 100],
@@ -78,6 +79,7 @@ const sizeData = {
       id: 2,
       sizeType: "Medium",
       size: {
+        filterType: "medium",
         totalWidth: [10, 100],
         bridgeWidth: [10, 100],
         lensWidth: [10, 100],
@@ -90,19 +92,7 @@ const sizeData = {
       id: 3,
       sizeType: "Large",
       size: {
-        totalWidth: [10, 100],
-        bridgeWidth: [10, 100],
-        lensWidth: [10, 100],
-        lensHeight: [10, 100],
-        armWidth: [10, 100],
-      },
-      itemCount: 15,
-    },
-    {
-      id: 4,
-      custom: true,
-      sizeType: "Custom",
-      size: {
+        filterType: "large",
         totalWidth: [10, 100],
         bridgeWidth: [10, 100],
         lensWidth: [10, 100],
@@ -159,6 +149,7 @@ const FiltersAccordion: React.FC<FiltersAccordionProps> = ({ apiData }) => {
   const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
   return (
     <>
+      {/* DROPDOWN */}
       <div className="p-2 h-full">
         <div className="flex justify-between items-center h-16 text-black px-2 font-light text-lg my-0 border-0 relative bg-white mb-8 z-40 ">
           <div>Sort By:</div>

@@ -12,6 +12,7 @@ interface RangeSliderProps {
   iconSrc: string;
   defaultValue: [number, number];
   attributeName: string;
+  handleSizeChange: (attribute: string, value: [number, number]) => void;
 }
 
 const RangeSlider = ({
@@ -19,14 +20,13 @@ const RangeSlider = ({
   iconSrc,
   defaultValue,
   attributeName,
+  handleSizeChange,
 }: RangeSliderProps) => {
   const [sliderValue, setsliderValue] = useState(defaultValue);
-  const dispatch = useDispatch();
 
   const handleSliderValueChange = (value) => {
     setsliderValue(value);
-    dispatch(addSizeFilter(attributeName, value));
-    console.log(value);
+    handleSizeChange(attributeName, value);
   };
 
   return (

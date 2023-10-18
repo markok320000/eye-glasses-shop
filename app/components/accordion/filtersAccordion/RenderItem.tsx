@@ -17,15 +17,28 @@ import {
   addColorFilter,
   removeColorFilter,
   addSizeFilter,
+  addPredefinedSizeFilter,
 } from "@/app/redux/features/filters";
 
 const RenderItem = ({ filterType, item }) => {
-  const [sliderValue, setSliderValue] = useState([0, 10]);
-  const dispatch = useDispatch();
-  // const selectedGender = useAppSelector((state) => state.filtersSlice.gender);
-  // const selectedBrand = useAppSelector((state) => state.filtersSlice.brand);
-  // const selectedColors = useAppSelector((state) => state.filtersSlice.color);
+  const [customSize, setCustomSize] = useState({
+    filterType: "custom",
+    totalWidth: [10, 100],
+    bridgeWidth: [10, 100],
+    lensWidth: [10, 100],
+    lensHeight: [10, 100],
+    armWidth: [10, 100],
+  });
+  const handleSizeChange = (attribute, value) => {
+    setCustomSize({
+      ...customSize,
+      [attribute]: value,
+    });
 
+    console.log(customSize);
+  };
+
+  const dispatch = useDispatch();
   const { gender, brand, color } = useAppSelector(
     (state) => state.filtersSlice
   );
@@ -103,32 +116,40 @@ const RenderItem = ({ filterType, item }) => {
           <RangeSlider
             text="Total Width"
             iconSrc={totalWidthIcon}
-            defaultValue={[10, 50]}
+            defaultValue={[customSize.totalWidth[0], customSize.totalWidth[1]]}
             attributeName="totalWidth"
+            handleSizeChange={handleSizeChange}
           />
           <RangeSlider
             text="Bridge Width"
             iconSrc={bridgeHeightIcon}
-            defaultValue={[10, 50]}
+            defaultValue={[
+              customSize.bridgeWidth[0],
+              customSize.bridgeWidth[1],
+            ]}
             attributeName="bridgeWidth"
+            handleSizeChange={handleSizeChange}
           />
           <RangeSlider
             text="Lens Width"
             iconSrc={lensWidthIcon}
-            defaultValue={[10, 50]}
+            defaultValue={[customSize.lensWidth[0], customSize.lensWidth[1]]}
             attributeName="lensWidth"
+            handleSizeChange={handleSizeChange}
           />
           <RangeSlider
             text="Lens Height "
             iconSrc={lensHeightIcon}
-            defaultValue={[10, 50]}
+            defaultValue={[customSize.lensHeight[0], customSize.lensHeight[1]]}
             attributeName="lensHeight"
+            handleSizeChange={handleSizeChange}
           />
           <RangeSlider
             text="Arm Width "
             iconSrc={armHeightIcon}
-            defaultValue={[10, 50]}
+            defaultValue={[customSize.armWidth[0], customSize.armWidth[1]]}
             attributeName="armWidth"
+            handleSizeChange={handleSizeChange}
           />
         </div>
       );
@@ -141,6 +162,9 @@ const RenderItem = ({ filterType, item }) => {
           type="checkbox"
           id={item.sizeType}
           value={item.size}
+          onClick={() =>
+            dispatch(addPredefinedSizeFilter({ value: item.size }))
+          }
         />
         <label
           htmlFor={item.sizeType}

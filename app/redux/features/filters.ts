@@ -6,25 +6,29 @@ interface FiltersState {
   gender: string[];
   brand: string[];
   size: {
+    filterType: string;
     totalWidth: number[];
     bridgeWidth: number[];
     lensWidth: number[];
     lensHeight: number[];
     armWidth: number[];
-  };
+  }[];
   color: string[];
 }
 
 const initialState: FiltersState = {
   gender: [],
   brand: [],
-  size: {
-    totalWidth: [],
-    bridgeWidth: [],
-    lensWidth: [],
-    lensHeight: [],
-    armWidth: [],
-  },
+  size: [
+    {
+      filterType: "",
+      totalWidth: [],
+      bridgeWidth: [],
+      lensWidth: [],
+      lensHeight: [],
+      armWidth: [],
+    },
+  ],
   color: [],
 };
 
@@ -54,19 +58,33 @@ const filtersSlice = createSlice({
       state.brand = [];
     },
     // Size filter actions
+    addPredefinedSizeFilter: (state, action: PayloadAction<{ value }>) => {
+      state.size.push(action.payload.value);
+    },
+
     addSizeFilter: (
       state,
       action: PayloadAction<{ attribute: string; value: [number, number] }>
     ) => {
-      state.size[action.payload.attribute] = action.payload.value;
+      const filterTypeCustom = state.size.find(
+        (filter) => filter.filterType === "custom"
+      );
+      if (filterTypeCustom) {
+        filterTypeCustom[action.payload.attribute] = action.payload.value;
+      }
     },
     removeSizeFilter: (
       state,
       action: PayloadAction<{ attribute: string; value: number }>
     ) => {
-      state.size[action.payload.attribute] = state.size[
-        action.payload.attribute
-      ].filter((value) => value !== action.payload.value);
+      const filterTypeCustom = state.size.find(
+        (filter) => filter.filterType === "custom"
+      );
+      if (filterTypeCustom) {
+        filterTypeCustom[action.payload.attribute] = filterTypeCustom[
+          action.payload.attribute
+        ].filter((value) => value !== action.payload.value);
+      }
     },
     clearSizeFilter: (state) => {
       state.size = initialState.size;
@@ -93,6 +111,7 @@ export const {
   removeBrandFilter,
   clearBrandFilter,
   addSizeFilter,
+  addPredefinedSizeFilter,
   removeSizeFilter,
   clearSizeFilter,
   addColorFilter,

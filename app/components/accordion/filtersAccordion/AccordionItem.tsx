@@ -6,6 +6,7 @@ import {
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import React from "react";
 import RenderItem from "./RenderItem";
+import FilterSize from "./FilterSize";
 
 interface IconProps {
   id: number;
@@ -61,13 +62,17 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             }  
             `}
           >
-            {item.options.map((child: any) => (
-              <RenderItem
-                key={child.id}
-                item={child}
-                filterType={item.filterType}
-              />
-            ))}
+            {item.filterType === "Size" ? (
+              <FilterSize item={item} />
+            ) : (
+              item.options.map((child: any) => (
+                <RenderItem
+                  key={child.id}
+                  item={child}
+                  filterType={item.filterType}
+                />
+              ))
+            )}
           </AccordionBody>
         </Accordion>
       </div>
