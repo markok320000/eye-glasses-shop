@@ -3,6 +3,7 @@ import {
   AccordionBody,
   AccordionHeader,
 } from "@material-tailwind/react";
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import React from "react";
 import RenderItem from "./RenderItem";
 
@@ -13,22 +14,13 @@ interface IconProps {
 
 function Icon({ id, open }: IconProps) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      stroke="currentColor"
-      className={`${
-        id === open ? "rotate-180" : ""
-      } h-5 w-5 transition-transform absolute right-4 top-1/2 -translate-y-1/2`}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-      />
-    </svg>
+    <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-700">
+      {open === id ? (
+        <AiOutlineMinus className=" text-2xl" />
+      ) : (
+        <AiOutlinePlus className=" text-2xl" />
+      )}
+    </div>
   );
 }
 
@@ -54,15 +46,21 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
         >
           <AccordionHeader
             onClick={() => handleOpen(item.filterType)}
-            className={`h-13 text-black px-2 font-light text-lg my-0 border-0 py-1 relative  
+            className={`h-13 text-black px-2 font-light text-lg my-0 border-0 py-4 relative  
               `}
           >
             {item.filterType}
 
             <Icon id={item.filterType} open={open} />
           </AccordionHeader>
-
-          <AccordionBody className={`  `}>
+          {/* if filterType is color put the options in row */}
+          <AccordionBody
+            className={`text-lg
+            ${
+              item.filterType === "Color" ? "flex flex-row " : "flex flex-col"
+            }  
+            `}
+          >
             {item.options.map((child: any) => (
               <RenderItem
                 key={child.id}

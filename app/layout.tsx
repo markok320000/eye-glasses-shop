@@ -12,6 +12,7 @@ import FavouritesSideBar from "./components/modals/FavouritesSideBar/FavouritesS
 import Footer from "./components/footer/Footer";
 import FilterAndSortBar from "./sunglasses/FilterAndSortBar";
 import FilterModal from "./sunglasses/FilterModal";
+import { ReduxProvider } from "./redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +34,9 @@ export default function RootLayout({
         <SideBar />
         <ShoppingBagSideBar />
         <FavouritesSideBar />
-        <div className="">{children}</div>
+        <div className="">
+          <ReduxProvider>{children}</ReduxProvider>
+        </div>
         <Footer />
       </body>
     </html>

@@ -3,17 +3,31 @@ import ReactSlider from "react-slider";
 import "../rangeSlider/Slider.css";
 import { slider } from "@material-tailwind/react";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/app/hooks/hooks";
+import { addSizeFilter } from "@/app/redux/features/filters";
 
 interface RangeSliderProps {
   text: string;
   iconSrc: string;
   defaultValue: [number, number];
+  attributeName: string;
 }
 
-const RangeSlider = ({ text, iconSrc, defaultValue }: RangeSliderProps) => {
+const RangeSlider = ({
+  text,
+  iconSrc,
+  defaultValue,
+  attributeName,
+}: RangeSliderProps) => {
   const [sliderValue, setsliderValue] = useState(defaultValue);
+  const dispatch = useDispatch();
 
-  console.log(sliderValue);
+  const handleSliderValueChange = (value) => {
+    setsliderValue(value);
+    dispatch(addSizeFilter(attributeName, value));
+    console.log(value);
+  };
 
   return (
     <div className="flex flex-col justify-center items-center gap-4">
@@ -32,7 +46,7 @@ const RangeSlider = ({ text, iconSrc, defaultValue }: RangeSliderProps) => {
         ariaValuetext={(state) => `Thumb value ${state.valueNow}`}
         renderThumb={(props, state) => <div {...props}></div>}
         pearling
-        onChange={(value) => setsliderValue(value)}
+        onChange={(value) => handleSliderValueChange(value)}
       />
       <div className="font-medium text-gray-500 text-lg">{`${sliderValue[0]}mm - ${sliderValue[1]}mm `}</div>
     </div>
