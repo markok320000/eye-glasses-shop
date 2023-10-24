@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactSlider from "react-slider";
 import RangeSlider from "./rangeSlider/RangeSlider";
 
@@ -16,8 +16,6 @@ import {
   removeBrandFilter,
   addColorFilter,
   removeColorFilter,
-  addSizeFilter,
-  addPredefinedSizeFilter,
 } from "@/app/redux/features/filters";
 
 const RenderItem = ({ filterType, item }) => {
@@ -29,19 +27,24 @@ const RenderItem = ({ filterType, item }) => {
     lensHeight: [10, 100],
     armWidth: [10, 100],
   });
-  const handleSizeChange = (attribute, value) => {
-    setCustomSize({
-      ...customSize,
-      [attribute]: value,
-    });
-
-    console.log(customSize);
-  };
 
   const dispatch = useDispatch();
   const { gender, brand, color } = useAppSelector(
     (state) => state.filtersSlice
   );
+
+  const checkIfColorIsPresent = () => {
+    return color.includes(item.colorCode);
+  };
+
+  const [colorIsPresent, setcolorIsPresent] = useState(checkIfColorIsPresent());
+
+  useEffect(() => {
+    setcolorIsPresent(checkIfColorIsPresent());
+  }, [color]);
+
+  // get me the state of the colors
+  // if the color is in the state, then it is selected
 
   const handleFilterClick = (filterType, filterValue) => {
     switch (filterType) {
@@ -74,7 +77,7 @@ const RenderItem = ({ filterType, item }) => {
 
   if (filterType === "Gender") {
     return (
-      <div className="flex items-center">
+      <div className="flex text-gray items-center ">
         <input
           className="accent-yellow-800 h-5 w-5 mx-2 "
           type="checkbox"
@@ -91,7 +94,7 @@ const RenderItem = ({ filterType, item }) => {
 
   if (filterType === "Brands") {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex text-gray items-center gap-2">
         <input
           className="accent-yellow-800 h-5 w-5 mx-2 "
           type="checkbox"
@@ -101,74 +104,14 @@ const RenderItem = ({ filterType, item }) => {
             handleFilterClick(filterType, item.brandName.toLowerCase())
           }
         />
-        <img src={item.logoUrl} alt={item.brandName} className="h-auto " />
+        <img
+          src={item.logoUrl}
+          alt={item.brandName}
+          className="h-auto w-12 py-1"
+        />
         <label
           htmlFor={item.brandName}
         >{`${item.brandName} (${item.itemCount})`}</label>
-      </div>
-    );
-  }
-
-  if (filterType === "Size") {
-    if (item.custom) {
-      return (
-        <div className="my-4">
-          <RangeSlider
-            text="Total Width"
-            iconSrc={totalWidthIcon}
-            defaultValue={[customSize.totalWidth[0], customSize.totalWidth[1]]}
-            attributeName="totalWidth"
-            handleSizeChange={handleSizeChange}
-          />
-          <RangeSlider
-            text="Bridge Width"
-            iconSrc={bridgeHeightIcon}
-            defaultValue={[
-              customSize.bridgeWidth[0],
-              customSize.bridgeWidth[1],
-            ]}
-            attributeName="bridgeWidth"
-            handleSizeChange={handleSizeChange}
-          />
-          <RangeSlider
-            text="Lens Width"
-            iconSrc={lensWidthIcon}
-            defaultValue={[customSize.lensWidth[0], customSize.lensWidth[1]]}
-            attributeName="lensWidth"
-            handleSizeChange={handleSizeChange}
-          />
-          <RangeSlider
-            text="Lens Height "
-            iconSrc={lensHeightIcon}
-            defaultValue={[customSize.lensHeight[0], customSize.lensHeight[1]]}
-            attributeName="lensHeight"
-            handleSizeChange={handleSizeChange}
-          />
-          <RangeSlider
-            text="Arm Width "
-            iconSrc={armHeightIcon}
-            defaultValue={[customSize.armWidth[0], customSize.armWidth[1]]}
-            attributeName="armWidth"
-            handleSizeChange={handleSizeChange}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <input
-          className="accent-yellow-800 h-5 w-5 mx-2 "
-          type="checkbox"
-          id={item.sizeType}
-          value={item.size}
-          onClick={() =>
-            dispatch(addPredefinedSizeFilter({ value: item.size }))
-          }
-        />
-        <label
-          htmlFor={item.sizeType}
-        >{`${item.sizeType} (${item.itemCount})`}</label>
       </div>
     );
   }
@@ -177,15 +120,18 @@ const RenderItem = ({ filterType, item }) => {
     return (
       <div key={item.id}>
         <div
-          className="mx-1"
-          style={{
-            width: "20px",
-            height: "20px",
-            borderRadius: "50%",
-            backgroundColor: item.colorCode,
-          }}
-          onClick={() => handleFilterClick(filterType, item.colorCode)}
-        ></div>
+          className={` rounded-full border-[2px] p-[2px] ${
+            colorIsPresent ? "  border-gray-400 " : "border-white"
+          }`}
+        >
+          <div
+            className={` p-3  rounded-full hover:cursor-pointer ${
+              colorIsPresent ? " text-white" : ""
+            }`}
+            onClick={() => handleFilterClick(filterType, item.colorCode)}
+            style={{ backgroundColor: item.colorCode }}
+          ></div>
+        </div>
       </div>
     );
   }

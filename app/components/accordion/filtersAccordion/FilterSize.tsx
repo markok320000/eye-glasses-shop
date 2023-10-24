@@ -1,26 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RangeSlider from "./rangeSlider/RangeSlider";
 import totalWidthIcon from "@/public/images/glasses-filter-images/totalWidth.jpg";
 import lensWidthIcon from "@/public/images/glasses-filter-images/lensWidth.jpg";
 import lensHeightIcon from "@/public/images/glasses-filter-images/lensHeight.jpg";
 import bridgeHeightIcon from "@/public/images/glasses-filter-images/bridgeHeight.jpg";
 import armHeightIcon from "@/public/images/glasses-filter-images/armHeight.jpg";
-// options: [
-//     {
-//       id: 1,
-//       sizeType: "Small",
-//       size: {
-//         filterType: "small",
-//         totalWidth: [10, 100],
-//         bridgeWidth: [10, 100],
-//         lensWidth: [10, 100],
-//         lensHeight: [10, 100],
-//         armWidth: [10, 100],
-//       },
-//       itemCount: 5,
-//     },
+import { useDispatch } from "react-redux";
+import { addSizeFilter } from "@/app/redux/features/filters";
 
-const FilterSize = ({ item }) => {
+const FilterSize = ({ item, handleSelectedItemsCount }) => {
   const defaultWidth = {
     filterType: "custom",
     totalWidth: [10, 100],
@@ -31,13 +19,33 @@ const FilterSize = ({ item }) => {
   };
   const [customSize, setCustomSize] = useState(defaultWidth);
   const [sizeFilters, setSizeFilters] = useState([]);
+  const dispatch = useDispatch();
 
   const handleSizeChange = (attribute, value) => {
-    setCustomSize({
+    const customFilter = sizeFilters.find(
+      (filter) => filter.filterType === "custom"
+    );
+    if (!customFilter) {
+      sizeFilters.push({ ...defaultWidth });
+      setSizeFilters([...sizeFilters]);
+    }
+
+    const updatedCustomSize = {
       ...customSize,
       [attribute]: value,
-    });
+    };
+    setCustomSize(updatedCustomSize);
     removeOtherFilters();
+
+    dispatch(addSizeFilter({ value: customSize }));
+  };
+
+  const handleCheckClick = (value) => {
+    let sizeFiltersArr = sizeFilters;
+    sizeFiltersArr = addFilter(value, sizeFiltersArr);
+    setSizeFilters([...sizeFiltersArr]);
+
+    dispatch(addSizeFilter({ value: sizeFiltersArr }));
   };
 
   const removeOtherFilters = () => {
@@ -47,31 +55,53 @@ const FilterSize = ({ item }) => {
     setSizeFilters(customFilter ? [customSize] : []);
   };
 
-  const handleCheckClick = (value) => {
-    const isAppliedCustomFilter = sizeFilters.some(
-      (filter) => filter.filterType === "custom"
+  const addFilter = (filter, filterArr) => {
+    const index = filterArr.findIndex(
+      (filterItem) => filterItem.filterType === filter.filterType
     );
-    if (isAppliedCustomFilter) {
-      setSizeFilters([]);
-      console.log("executes");
-    }
-
-    console.log(isAppliedCustomFilter);
-    const index = sizeFilters.findIndex(
-      (filter) => filter.filterType === value.filterType
-    );
-
-    if (index !== -1) {
-      // Remove the filter if it exists
-      sizeFilters.splice(index, 1);
+    if (index === -1) {
+      if (filter.filterType === "custom") {
+        console.log("custom filter added");
+        filterArr = [];
+      } else {
+        if (customFilterExistsInArray(filterArr)) {
+          removeCustomFilter(filterArr);
+        }
+      }
+      filterArr.push(filter);
     } else {
-      // Add the filter if it doesn't exist
-      sizeFilters.push({ ...value });
+      removeFilter(filter, filterArr);
     }
-    setSizeFilters([...sizeFilters]);
+    return filterArr;
   };
 
-  console.log(setTimeout(() => console.log(sizeFilters), 1000));
+  const customFilterExistsInArray = (filterArr) => {
+    return filterArr.some((filterItem) => filterItem.filterType === "custom");
+  };
+
+  const removeFilter = (filter, filterArr) => {
+    const index = filterArr.findIndex(
+      (filterItem) => filterItem.filterType === filter.filterType
+    );
+    if (index !== -1) {
+      filterArr.splice(index, 1);
+      if (filter.filterType === "custom") {
+        setCustomSize(defaultWidth);
+      }
+    }
+    return filterArr;
+  };
+
+  const removeCustomFilter = (filterArr) => {
+    const index = filterArr.findIndex(
+      (filterItem) => filterItem.filterType === "custom"
+    );
+    if (index !== -1) {
+      filterArr.splice(index, 1);
+    }
+    setCustomSize(defaultWidth);
+  };
+
   return (
     <div>
       {item.options.map((filterItem: any, index: number) => (
@@ -97,6 +127,7 @@ const FilterSize = ({ item }) => {
         <input
           className="accent-yellow-800 h-5 w-5 mx-2 "
           type="checkbox"
+          checked={sizeFilters.some((filter) => filter.filterType === "custom")}
           onClick={() => {
             handleCheckClick(customSize);
           }}

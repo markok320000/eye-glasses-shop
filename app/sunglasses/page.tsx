@@ -4,7 +4,7 @@ import Listing from "./Listing";
 const SunglassesListing = () => {
   return (
     <div className="flex flex-col items-center">
-      <div className="container ">
+      <div className="container">
         <Listing />
       </div>
     </div>

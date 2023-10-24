@@ -38,7 +38,6 @@ const SideBarMenuModal: React.FC<SideBarMenuModalProps> = ({
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);
-  console.log(showModal);
 
   const handleClose = useCallback(() => {
     if (disabled) {

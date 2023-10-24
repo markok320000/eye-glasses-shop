@@ -4,6 +4,7 @@ import { decrement, increment } from "@/app/redux/features/counter";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/redux/store";
 import { useAppSelector } from "@/app/hooks/hooks";
+import FilterDropdown from "./FilterDropdown";
 
 interface FiltersAccordionProps {
   apiData: any;
@@ -134,58 +135,48 @@ const FiltersAccordion: React.FC<FiltersAccordionProps> = ({ apiData }) => {
   const [open, setOpen] = useState(0);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
-  const dropdownOptions = ["Option 1", "Option 2", "Option 3", "Option 4"];
+  const dropdownOptions = [
+    "Relevance",
+    "Popularity",
+    "Price: Low-To-High",
+    "Price: High-To-Low",
+  ];
   const [selectedOption, setSelectedOption] = useState(0);
 
   const state = useAppSelector((state) => state.filtersSlice);
-
-  console.log(state);
-
-  const handleSelectOption = (index: number) => {
-    setSelectedOption(index);
-    setDropdownOpen(false);
-  };
+  const { color, size, gender, brand, sort } = state;
 
   const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
   return (
     <>
-      {/* DROPDOWN */}
-      <div className="p-2 h-full">
-        <div className="flex justify-between items-center h-16 text-black px-2 font-light text-lg my-0 border-0 relative bg-white mb-8 z-40 ">
-          <div>Sort By:</div>
-          <div className="relative">
-            <div className="" onClick={() => setDropdownOpen(!isDropdownOpen)}>
-              <div className="flex">
-                <span>{dropdownOptions[selectedOption]}</span>
-              </div>
-            </div>
-
-            {isDropdownOpen && (
-              <div className="absolute bg-white border rounded border-gray-300  w-48 right-0">
-                {dropdownOptions.map((option, index) => (
-                  <div
-                    key={index}
-                    className={`cursor-pointer px-4 py-2 hover:bg-gray-100 ${
-                      selectedOption === index ? "bg-blue-500 text-white" : ""
-                    }`}
-                    onClick={() => handleSelectOption(index)}
-                  >
-                    {option}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-        <AccordionItem item={genderData} open={open} handleOpen={handleOpen} />
-        <AccordionItem item={brandData} open={open} handleOpen={handleOpen} />
-        <AccordionItem item={sizeData} open={open} handleOpen={handleOpen} />
-        <AccordionItem item={colorData} open={open} handleOpen={handleOpen} />
+      <div className="h-full w-full">
+        <AccordionItem
+          item={genderData}
+          open={open}
+          handleOpen={handleOpen}
+          selectedFiltersCount={gender.length}
+        />
+        <AccordionItem
+          item={brandData}
+          open={open}
+          handleOpen={handleOpen}
+          selectedFiltersCount={brand.length}
+        />
+        <AccordionItem
+          item={sizeData}
+          open={open}
+          handleOpen={handleOpen}
+          selectedFiltersCount={size.length}
+        />
+        <AccordionItem
+          item={colorData}
+          open={open}
+          handleOpen={handleOpen}
+          selectedFiltersCount={color.length}
+        />
       </div>
     </>
   );
 };
 
 export default FiltersAccordion;
-
-//

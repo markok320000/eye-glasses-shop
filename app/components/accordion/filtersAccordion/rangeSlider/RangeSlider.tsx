@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactSlider from "react-slider";
 import "../rangeSlider/Slider.css";
 import { slider } from "@material-tailwind/react";
@@ -24,6 +24,10 @@ const RangeSlider = ({
 }: RangeSliderProps) => {
   const [sliderValue, setsliderValue] = useState(defaultValue);
 
+  useEffect(() => {
+    setsliderValue(defaultValue);
+  }, [defaultValue]);
+
   const handleSliderValueChange = (value) => {
     setsliderValue(value);
     handleSizeChange(attributeName, value);
@@ -38,6 +42,7 @@ const RangeSlider = ({
         </div>
       </div>
       <ReactSlider
+        value={sliderValue}
         className="slider"
         thumbClassName="thumb"
         trackClassName="track"

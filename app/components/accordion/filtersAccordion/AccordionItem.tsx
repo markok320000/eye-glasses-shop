@@ -4,9 +4,10 @@ import {
   AccordionHeader,
 } from "@material-tailwind/react";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import RenderItem from "./RenderItem";
 import FilterSize from "./FilterSize";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 interface IconProps {
   id: number;
@@ -31,26 +32,39 @@ interface AccordionItemProps {
   open: number;
   footerAccordion?: boolean;
   handleOpen: (id: number) => void;
+  selectedFiltersCount: number;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({
   item,
   open,
   handleOpen,
+  selectedFiltersCount,
 }) => {
   return (
     <div>
-      <div key={item.filterType} className="bg-white mb-[1px] ">
+      <div key={item.filterType} className="bg-white mb-[2px]">
         <Accordion
           open={open === item.filterType}
           icon={<Icon id={item.filterType} open={open} />}
         >
           <AccordionHeader
             onClick={() => handleOpen(item.filterType)}
-            className={`h-13 text-black px-2 font-light text-lg my-0 border-0 py-4 relative  
+            className={`h-13 text-black px-2 text-lg font-semibolld border-0 py-4 relative  
               `}
           >
-            {item.filterType}
+            <div className="flex gap-2">
+              {item.filterType}
+              <div
+                className={`${
+                  selectedFiltersCount === 0
+                    ? "hidden"
+                    : "bg-yellow-700 rounded-full h-6 w-6 flex items-center justify-center text-white text-sm"
+                }`}
+              >
+                {selectedFiltersCount}
+              </div>
+            </div>
 
             <Icon id={item.filterType} open={open} />
           </AccordionHeader>

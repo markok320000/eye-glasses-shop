@@ -5,31 +5,26 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface FiltersState {
   gender: string[];
   brand: string[];
-  size: {
-    filterType: string;
-    totalWidth: number[];
-    bridgeWidth: number[];
-    lensWidth: number[];
-    lensHeight: number[];
-    armWidth: number[];
-  }[];
+  size: [];
   color: string[];
+  sort: string;
 }
 
 const initialState: FiltersState = {
   gender: [],
   brand: [],
   size: [
-    {
-      filterType: "",
-      totalWidth: [],
-      bridgeWidth: [],
-      lensWidth: [],
-      lensHeight: [],
-      armWidth: [],
-    },
+    // {
+    // filterType: "",
+    // totalWidth: [],
+    // bridgeWidth: [],
+    // lensWidth: [],
+    // lensHeight: [],
+    // armWidth: [],
+    // },
   ],
   color: [],
+  sort: "",
 };
 
 const filtersSlice = createSlice({
@@ -62,29 +57,8 @@ const filtersSlice = createSlice({
       state.size.push(action.payload.value);
     },
 
-    addSizeFilter: (
-      state,
-      action: PayloadAction<{ attribute: string; value: [number, number] }>
-    ) => {
-      const filterTypeCustom = state.size.find(
-        (filter) => filter.filterType === "custom"
-      );
-      if (filterTypeCustom) {
-        filterTypeCustom[action.payload.attribute] = action.payload.value;
-      }
-    },
-    removeSizeFilter: (
-      state,
-      action: PayloadAction<{ attribute: string; value: number }>
-    ) => {
-      const filterTypeCustom = state.size.find(
-        (filter) => filter.filterType === "custom"
-      );
-      if (filterTypeCustom) {
-        filterTypeCustom[action.payload.attribute] = filterTypeCustom[
-          action.payload.attribute
-        ].filter((value) => value !== action.payload.value);
-      }
+    addSizeFilter: (state, action: PayloadAction<{ value }>) => {
+      state.size = action.payload.value;
     },
     clearSizeFilter: (state) => {
       state.size = initialState.size;
@@ -100,6 +74,11 @@ const filtersSlice = createSlice({
     clearColorFilter: (state) => {
       state.color = [];
     },
+
+    // Sort filter actions
+    setSortFilter: (state, action: PayloadAction<string>) => {
+      state.sort = action.payload;
+    },
   },
 });
 
@@ -112,11 +91,11 @@ export const {
   clearBrandFilter,
   addSizeFilter,
   addPredefinedSizeFilter,
-  removeSizeFilter,
   clearSizeFilter,
   addColorFilter,
   removeColorFilter,
   clearColorFilter,
+  setSortFilter,
 } = filtersSlice.actions;
 
 export default filtersSlice.reducer;
